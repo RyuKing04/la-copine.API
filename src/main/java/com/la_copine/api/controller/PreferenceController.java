@@ -25,8 +25,8 @@ public class PreferenceController {
     }
 
     @PostMapping
-    public void saveOrUpdate(@RequestBody Preference curso){
-        preferenceService.saveOrUpdate(curso);
+    public void saveOrUpdate(@RequestBody Preference preference){
+        preferenceService.saveOrUpdate(preference);
     }
 
     @DeleteMapping("/{id}")
