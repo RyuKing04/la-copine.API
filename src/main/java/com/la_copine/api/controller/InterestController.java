@@ -14,7 +14,7 @@ public class InterestController {
     @Autowired
     InterestService interestService;
 
-    @RequestMapping()
+    @GetMapping()
     public List<Interest> getAll() {
         return interestService.getAll();
     }
