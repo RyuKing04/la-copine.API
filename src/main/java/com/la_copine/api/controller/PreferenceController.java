@@ -14,7 +14,7 @@ public class PreferenceController {
     @Autowired
     PreferenceService preferenceService;
 
-    @RequestMapping()
+    @GetMapping()
     public List<Preference> getAll() {
         return preferenceService.getAll();
     }
