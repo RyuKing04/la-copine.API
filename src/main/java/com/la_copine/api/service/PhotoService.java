@@ -29,19 +29,21 @@ public class PhotoService {
     }
 
     public Photo createPhoto(PhotoRequestDTO photo) {
-        Photo newPhoto = new Photo();
-        mapDtoToEntity(photo, newPhoto);
+        Photo newPhoto = mapDtoToEntity(photo);
         return photoRepository.save(newPhoto);
     }
 
-    public Photo updatePhoto(Long id, Photo photoDetails) {
+    public Photo updatePhoto(Long id, PhotoRequestDTO photoDetails) {
         Photo photo = photoRepository.findById(id).orElse(null);
-        if (photo != null) {
-            photo.setUrl(photoDetails.getUrl());
-            photo.setPerson(photoDetails.getPerson());
-            return photoRepository.save(photo);
+        if (photo == null) {
+            return null;
         }
-        return null;
+        return photoRepository.save(Photo.builder()
+                .id(id)
+                .url(photoDetails.getUrl())
+                .person(personRepository.findById(photoDetails.getPersonId()).orElse(null))
+                .build()
+        );
     }
 
     public void deletePhoto(Long id) {
@@ -49,16 +51,18 @@ public class PhotoService {
     }
 
     private PhotoResponseDTO mapEntityToResponseDto(Photo photo) {
-        PhotoResponseDTO photoResponseDTO = new PhotoResponseDTO();
-        photoResponseDTO.setId(photo.getId());
-        photoResponseDTO.setUrl(photo.getUrl());
-        photoResponseDTO.setPersonId(photo.getPerson().getId());
-        return photoResponseDTO;
+        return PhotoResponseDTO.builder()
+                .id(photo.getId())
+                .url(photo.getUrl())
+                .personId(photo.getPerson().getId())
+                .build();
     }
 
-    private void mapDtoToEntity(PhotoRequestDTO photoDTO, Photo photo) {
-        photo.setUrl(photoDTO.getUrl());
-        photo.setPerson(personRepository.findById(photoDTO.getPersonId()).orElse(null));
+    private Photo mapDtoToEntity(PhotoRequestDTO photoDTO) {
+        return Photo.builder()
+                .url(photoDTO.getUrl())
+                .person(personRepository.findById(photoDTO.getPersonId()).orElse(null))
+                .build();
     }
 
 }

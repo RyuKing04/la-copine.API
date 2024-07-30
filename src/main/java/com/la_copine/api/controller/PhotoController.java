@@ -62,13 +62,13 @@ public class PhotoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") Long id, @Valid @RequestBody Photo photo) {
+    public ResponseEntity<Object> update(@PathVariable("id") Long id, @Valid @RequestBody PhotoRequestDTO photoDTO) {
         try {
             if (id <= 0) {
                 return ResponseEntity.badRequest().body("Invalid id");
             }
 
-            Photo updatedPhoto = photoService.updatePhoto(id, photo);
+            Photo updatedPhoto = photoService.updatePhoto(id, photoDTO);
             if (updatedPhoto == null) {
                 return ResponseEntity.noContent().build();
             }
