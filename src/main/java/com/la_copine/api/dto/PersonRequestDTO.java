@@ -15,8 +15,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PersonRequestDTO {
-    private Long id;
-
     @NotBlank
     @Size(max = 50)
     private String firstName;
@@ -26,7 +24,7 @@ public class PersonRequestDTO {
     private String lastName;
 
     @NotBlank
-    private Long genderId;
+    private int genderId;
 
     @NotBlank
     @Size(max = 500)
