@@ -7,6 +7,7 @@ import java.util.Set;
 
 
 @Data
+@Builder
 @Entity
 @Table
 @Getter

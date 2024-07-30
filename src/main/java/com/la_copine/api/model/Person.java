@@ -11,6 +11,7 @@ import java.util.Set;
 
 @Data
 @Entity
+@Builder
 @Transactional
 @Table(name = "person")
 @Getter

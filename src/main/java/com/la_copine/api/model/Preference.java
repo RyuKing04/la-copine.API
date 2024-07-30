@@ -11,6 +11,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Preference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
