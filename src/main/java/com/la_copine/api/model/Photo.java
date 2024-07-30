@@ -7,6 +7,7 @@ import lombok.*;
 
 @Data
 @Entity
+@Builder
 @Transactional
 @Table(name = "photo")
 @Getter

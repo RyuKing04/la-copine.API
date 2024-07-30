@@ -5,6 +5,7 @@ import lombok.*;
 
 @Data
 @Entity
+@Builder
 @Table(name = "gender")
 @Getter
 @Setter

@@ -33,9 +33,9 @@ public class InterestService {
     }
 
     public InterestResponseDTO mapEntityToResponseDto(Interest interest) {
-        InterestResponseDTO interestResponseDTO = new InterestResponseDTO();
-        interestResponseDTO.setId(interest.getId());
-        interestResponseDTO.setName(interest.getName());
-        return interestResponseDTO;
+        return InterestResponseDTO.builder()
+                .id(interest.getId())
+                .name(interest.getName())
+                .build();
     }
 }
