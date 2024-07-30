@@ -23,4 +23,5 @@ public class PersonResponseDTO {
     private String address;
     private boolean active;
     private Set<InterestResponseDTO> interests;
+    private Set<String> photos;
 }
