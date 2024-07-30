@@ -23,7 +23,6 @@ public class Person {
     private Long id;
 
     @Column(name = "first_name", nullable = false)
-    @NotBlank
     @Size(max = 50)
     private String firstName;
 
@@ -38,12 +37,10 @@ public class Person {
     private Gender gender;
 
     @Column(name = "bio", nullable = false)
-    @NotBlank
     @Size(max = 500)
     private String bio;
 
     @Column(name = "birth_date", nullable = false)
-    @NotBlank
     private LocalDateTime birthDate;
 
     @Column(name = "nickname")
@@ -52,7 +49,6 @@ public class Person {
 
     @Column(name = "email", nullable = false, unique = true)
     @Size(max = 50)
-    @NotBlank
     private String email;
 
     @Column(name = "popularity", nullable = false)
@@ -60,14 +56,13 @@ public class Person {
 
     @Column(name = "password", nullable = false)
     @Size(max = 50)
-    @NotBlank
     private String password;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number", nullable = false, unique = true)
     @Size(max = 15)
     private String phoneNumber;
 

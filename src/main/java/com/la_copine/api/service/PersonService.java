@@ -3,14 +3,8 @@ package com.la_copine.api.service;
 import com.la_copine.api.dto.InterestResponseDTO;
 import com.la_copine.api.dto.PersonRequestDTO;
 import com.la_copine.api.dto.PersonResponseDTO;
-import com.la_copine.api.model.Gender;
-import com.la_copine.api.model.Interest;
-import com.la_copine.api.model.Person;
-import com.la_copine.api.model.Role;
-import com.la_copine.api.repository.GenderRepository;
-import com.la_copine.api.repository.InterestRepository;
-import com.la_copine.api.repository.PersonRepository;
-import com.la_copine.api.repository.RoleRepository;
+import com.la_copine.api.model.*;
+import com.la_copine.api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +25,9 @@ public class PersonService {
 
     @Autowired
     private InterestRepository interestRepository;
+
+    @Autowired
+    private PhotoRepository photoRepository;
 
     public List<PersonResponseDTO> getAllPersons() {
         List<Person> persons = personRepository.findAll();
@@ -117,6 +114,7 @@ public class PersonService {
             interestResponseDTO.setName(interest.getName());
             return interestResponseDTO;
         }).collect(Collectors.toSet()));
+        personResponseDTO.setPhotos(photoRepository.findByPersonId(person.getId()).stream().map(Photo::getUrl).collect(Collectors.toSet()));
         return personResponseDTO;
     }
 }
