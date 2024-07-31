@@ -1,16 +1,21 @@
 package com.la_copine.api.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.la_copine.api.dto.InterestResponseDTO;
 import com.la_copine.api.dto.PersonRequestDTO;
 import com.la_copine.api.dto.PersonResponseDTO;
 import com.la_copine.api.model.Person;
 import com.la_copine.api.model.Photo;
-import com.la_copine.api.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import com.la_copine.api.repository.GenderRepository;
+import com.la_copine.api.repository.InterestRepository;
+import com.la_copine.api.repository.PersonRepository;
+import com.la_copine.api.repository.PhotoRepository;
+import com.la_copine.api.repository.RoleRepository;
 
 @Service
 public class PersonService {
@@ -53,7 +58,7 @@ public class PersonService {
     }
 
     public Person updatePerson(Long id, Person personDetails) {
-        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Person not found for this id :: " + id));
+        personRepository.findById(id).orElseThrow(() -> new RuntimeException("Person not found for this id :: " + id));
         return personRepository.save(personDetails);
     }
 
@@ -75,16 +80,15 @@ public class PersonService {
                 .address(personDTO.getAddress())
                 .active(personDTO.isActive())
                 .gender(genderRepository.findById(personDTO.getGenderId())
-                        .orElseThrow(() -> new RuntimeException("Role not found for this id :: " + personDTO.getGenderId()))
-                )
+                        .orElseThrow(
+                                () -> new RuntimeException("Role not found for this id :: " + personDTO.getGenderId())))
                 .role(roleRepository.findById(Math.toIntExact(personDTO.getRoleId()))
-                        .orElseThrow(() -> new RuntimeException("Role not found for this id :: " + personDTO.getRoleId()))
-                )
+                        .orElseThrow(
+                                () -> new RuntimeException("Role not found for this id :: " + personDTO.getRoleId())))
                 .interests(personDTO.getInterestIds().stream()
                         .map(id -> interestRepository.findById(Math.toIntExact(id))
                                 .orElseThrow(() -> new RuntimeException("Interest not found for this id :: " + id)))
-                        .collect(Collectors.toSet())
-                )
+                        .collect(Collectors.toSet()))
                 .build();
     }
 
@@ -103,12 +107,14 @@ public class PersonService {
                 .phoneNumber(person.getPhoneNumber())
                 .address(person.getAddress())
                 .active(person.isActive())
-                .interests(interestRepository.findByPersonsId(person.getId()).stream().map(interest -> InterestResponseDTO.builder()
-                        .id(interest.getId())
-                        .name(interest.getName())
-                        .build()).collect(Collectors.toSet())
-                )
-                .photos(photoRepository.findByPersonId(person.getId()).stream().map(Photo::getUrl).collect(Collectors.toSet()))
+                .interests(interestRepository.findByPersonsId(person.getId()).stream()
+                        .map(interest -> InterestResponseDTO.builder()
+                                .id(interest.getId())
+                                .name(interest.getName())
+                                .build())
+                        .collect(Collectors.toSet()))
+                .photos(photoRepository.findByPersonId(person.getId()).stream().map(Photo::getUrl)
+                        .collect(Collectors.toSet()))
                 .build();
     }
 }
